@@ -213,7 +213,7 @@ impl<'a> Renderer<'a> for RendererAdapter<'a> {
             };
 
             // If some trigger vars are specified, augment the template with them
-            let augmented_template = if trigger_vars.is_empty() {
+            let augmented_template = if trigger_vars.is_empty() && trigger.is_none() {
                 None
             } else {
                 let mut augmented = template.clone();
@@ -231,6 +231,23 @@ impl<'a> Renderer<'a> for RendererAdapter<'a> {
                         },
                     );
                 }
+                
+                // Add trigger as a special variable if available
+                if let Some(trigger_value) = trigger {
+                    let mut params = espanso_render::Params::new();
+                    params.insert("echo".to_string(), Value::String(trigger_value.to_string()));
+                    augmented.vars.insert(
+                        0,
+                        Variable {
+                            name: "_trigger_".to_string(),
+                            var_type: "echo".to_string(),
+                            params,
+                            inject_vars: false,
+                            ..Default::default()
+                        },
+                    );
+                }
+                
                 Some(augmented)
             };
 

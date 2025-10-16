@@ -213,6 +213,7 @@ pub fn initialize_and_spawn(
             let choice_adapter = ChoiceSelectorAdapter::new(&modulo_search_ui);
             let choice_extension =
                 espanso_render::extension::choice::ChoiceExtension::new(&choice_adapter);
+            let ui_automation_extension = espanso_render::extension::ui_automation::UiAutomationExtension::new();
             let renderer = espanso_render::create(vec![
                 &clipboard_extension,
                 &date_extension,
@@ -222,6 +223,7 @@ pub fn initialize_and_spawn(
                 &shell_extension,
                 &form_extension,
                 &choice_extension,
+                &ui_automation_extension,
             ]);
             let renderer_adapter = RendererAdapter::new(&match_cache, &config_manager, &renderer);
             let path_provider = PathProviderAdapter::new(&paths);

@@ -26,4 +26,6 @@ pub mod form;
 pub mod random;
 pub mod script;
 pub mod shell;
+pub mod ui_automation;
+
 mod util;
